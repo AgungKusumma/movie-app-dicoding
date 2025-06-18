@@ -4,6 +4,7 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
+import 'package:ditonton/presentation/pages/tv/popular_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_series_page.dart';
 import 'package:ditonton/presentation/provider/tv/tv_list_notifier.dart';
@@ -11,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeTvSeriesPage extends StatefulWidget {
-  static const ROUTE_NAME = '/popular-tv-series';
+  static const ROUTE_NAME = '/home-tv-series';
 
   @override
   _HomeTvSeriesPageState createState() => _HomeTvSeriesPageState();
@@ -109,10 +110,11 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
                   return Text('Failed');
                 }
               }),
-              _buildSubHeading(title: 'Popular', onTap: () {}
-                  // onTap: () => Navigator.pushNamed(
-                  //     context, PopularTvSeriesPage.ROUTE_NAME),
-                  ),
+              _buildSubHeading(
+                title: 'Popular',
+                onTap: () => Navigator.pushNamed(
+                    context, PopularTvSeriesPage.ROUTE_NAME),
+              ),
               Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
                 final state = data.popularTvSeriesState;
                 if (state == RequestState.Loading) {
