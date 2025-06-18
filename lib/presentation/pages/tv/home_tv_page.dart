@@ -5,6 +5,7 @@ import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
 import 'package:ditonton/presentation/pages/tv/popular_tv_series_page.dart';
+import 'package:ditonton/presentation/pages/tv/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_series_page.dart';
 import 'package:ditonton/presentation/provider/tv/tv_list_notifier.dart';
@@ -127,10 +128,11 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
                   return Text('Failed');
                 }
               }),
-              _buildSubHeading(title: 'Top Rated', onTap: () {}
-                  // onTap: () => Navigator.pushNamed(
-                  //     context, TopRatedTvSeriesPage.ROUTE_NAME),
-                  ),
+              _buildSubHeading(
+                title: 'Top Rated',
+                onTap: () => Navigator.pushNamed(
+                    context, TopRatedTvSeriesPage.ROUTE_NAME),
+              ),
               Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
                 final state = data.topRatedTvSeriesState;
                 if (state == RequestState.Loading) {
