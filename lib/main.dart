@@ -8,6 +8,7 @@ import 'package:ditonton/presentation/pages/popular_movies_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
 import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
 import 'package:ditonton/presentation/pages/tv/home_tv_page.dart';
+import 'package:ditonton/presentation/pages/tv/now_playing_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/popular_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_series_detail_page.dart';
@@ -18,6 +19,7 @@ import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
+import 'package:ditonton/presentation/provider/tv/now_playing_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/popular_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/top_rated_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/tv_list_notifier.dart';
@@ -59,6 +61,9 @@ class MyApp extends StatelessWidget {
         // tv series
         ChangeNotifierProvider(
           create: (_) => di.locator<TvSeriesListNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<NowPlayingTvSeriesNotifier>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<PopularTvSeriesNotifier>(),
@@ -105,6 +110,9 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => WatchlistMoviesPage());
             case HomeTvSeriesPage.ROUTE_NAME:
               return MaterialPageRoute(builder: (_) => HomeTvSeriesPage());
+            case NowPlayingTvSeriesPage.ROUTE_NAME:
+              return CupertinoPageRoute(
+                  builder: (_) => NowPlayingTvSeriesPage());
             case PopularTvSeriesPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => PopularTvSeriesPage());
             case TopRatedTvSeriesPage.ROUTE_NAME:

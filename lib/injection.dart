@@ -32,6 +32,7 @@ import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
+import 'package:ditonton/presentation/provider/tv/now_playing_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/popular_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/top_rated_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/tv_list_notifier.dart';
@@ -97,6 +98,11 @@ void init() {
       getWatchListStatus: locator(),
       saveWatchlist: locator(),
       removeWatchlist: locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => NowPlayingTvSeriesNotifier(
+      getNowPlayingTvSeries: locator(),
     ),
   );
   locator.registerFactory(
