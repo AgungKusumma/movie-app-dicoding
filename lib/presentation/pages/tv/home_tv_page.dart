@@ -3,6 +3,7 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
+import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/tv/now_playing_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/popular_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/search_tv_series_page.dart';
@@ -50,9 +51,9 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
             ),
             ListTile(
               leading: Icon(Icons.tv),
-              title: Text('TvSeries'),
+              title: Text('Movies'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, HomeMoviePage.ROUTE_NAME);
               },
             ),
             ListTile(
