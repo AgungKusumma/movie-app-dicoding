@@ -1,52 +1,56 @@
-# a199-flutter-expert-project
+# 🎬 Ditonton – Flutter Movie App
 
-Repository ini merupakan starter project submission kelas Flutter Expert Dicoding Indonesia.
+A Flutter-based movie catalog app developed as part of the **Dicoding Android Expert Capstone Project**. The app displays a list of popular movies and TV shows using data from The Movie Database (TMDb) API.
 
 ---
 
-## Tips Submission Awal
+## 1️⃣ Features
 
-Pastikan untuk memeriksa kembali seluruh hasil testing pada submissionmu sebelum dikirimkan. Karena kriteria pada submission ini akan diperiksa setelah seluruh berkas testing berhasil dijalankan.
+- View a list of **popular movies and TV shows**
+- View detailed information for each item (overview, rating, genres, etc.)
+- **Add or remove favorites**
+- Built with **provider** for state management
+- **Local data persistence** using `sqflite`
 
+---
 
-## Tips Submission Akhir
+## 2️⃣ Tech Stack
 
-Jika kamu menerapkan modular pada project, Anda dapat memanfaatkan berkas `test.sh` pada repository ini. Berkas tersebut dapat mempermudah proses testing melalui *terminal* atau *command prompt*. Sebelumnya menjalankan berkas tersebut, ikuti beberapa langkah berikut:
-1. Install terlebih dahulu aplikasi sesuai dengan Operating System (OS) yang Anda gunakan.
-    - Bagi pengguna **Linux**, jalankan perintah berikut pada terminal.
-        ```
-        sudo apt-get update -qq -y
-        sudo apt-get install lcov -y
-        ```
-    
-    - Bagi pengguna **Mac**, jalankan perintah berikut pada terminal.
-        ```
-        brew install lcov
-        ```
-    - Bagi pengguna **Windows**, ikuti langkah berikut.
-        - Install [Chocolatey](https://chocolatey.org/install) pada komputermu.
-        - Setelah berhasil, install [lcov](https://community.chocolatey.org/packages/lcov) dengan menjalankan perintah berikut.
-            ```
-            choco install lcov
-            ```
-        - Kemudian cek **Environtment Variabel** pada kolom **System variabels** terdapat variabel GENTHTML dan LCOV_HOME. Jika tidak tersedia, Anda bisa menambahkan variabel baru dengan nilai seperti berikut.
-            | Variable | Value|
-            | ----------- | ----------- |
-            | GENTHTML | C:\ProgramData\chocolatey\lib\lcov\tools\bin\genhtml |
-            | LCOV_HOME | C:\ProgramData\chocolatey\lib\lcov\tools |
-        
-2. Untuk mempermudah proses verifikasi testing, jalankan perintah berikut.
-    ```
-    git init
-    ```
-3. Kemudian jalankan berkas `test.sh` dengan perintah berikut pada *terminal* atau *powershell*.
-    ```
-    test.sh
-    ```
-    atau
-    ```
-    ./test.sh
-    ```
-    Proses ini akan men-*generate* berkas `lcov.info` dan folder `coverage` terkait dengan laporan coverage.
-4. Tunggu proses testing selesai hingga muncul web terkait laporan coverage.
+| Tech               | Description                           |
+|--------------------|---------------------------------------|
+| Flutter            | UI toolkit                            |
+| Dart               | Programming language                  |
+| Provider           | State management                      |
+| HTTP               | API requests                          |
+| SQLite (`sqflite`) | Local storage for favorites           |
+| CachedNetworkImage | Efficient image loading & caching     |
+| GetIt              | Dependency injection                  |
+| Dartz, Equatable   | Functional and comparison helpers     |
 
+---
+
+## 3️⃣ Getting Started
+STG
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/AgungKusumma/movie-app-dicoding.git
+```
+
+### Step 2: Navigate to the Project Directory
+
+```bash
+cd movie-app-dicoding
+```
+
+### Step 3: Install Dependencies
+
+```bash
+flutter pub get
+```
+
+### Step 4: Run the App
+
+```bash
+flutter run
+```
