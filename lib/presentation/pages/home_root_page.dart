@@ -1,6 +1,6 @@
 import 'package:ditonton/common/home_tab_enum.dart';
 import 'package:ditonton/injection.dart';
-import 'package:ditonton/presentation/pages/movie/about_page.dart';
+import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/movie/search_page.dart';
 import 'package:ditonton/presentation/pages/movie/watchlist_movies_page.dart';
