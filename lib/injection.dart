@@ -27,6 +27,7 @@ import 'package:ditonton/domain/usecases/tv/get_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/remove_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/save_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/search_tv_series.dart';
+import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_search_notifier.dart';
@@ -47,6 +48,9 @@ final locator = GetIt.instance;
 
 void init() {
   // provider
+  locator.registerFactory(() => HomeTabNotifier());
+
+  // movie
   locator.registerFactory(
     () => MovieListNotifier(
       getNowPlayingMovies: locator(),

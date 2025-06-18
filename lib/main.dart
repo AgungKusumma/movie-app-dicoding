@@ -1,20 +1,20 @@
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/injection.dart' as di;
+import 'package:ditonton/presentation/pages/home_root_page.dart';
 import 'package:ditonton/presentation/pages/movie/about_page.dart';
-import 'package:ditonton/presentation/pages/movie/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/movie/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/movie/popular_movies_page.dart';
 import 'package:ditonton/presentation/pages/movie/search_page.dart';
 import 'package:ditonton/presentation/pages/movie/top_rated_movies_page.dart';
 import 'package:ditonton/presentation/pages/movie/watchlist_movies_page.dart';
-import 'package:ditonton/presentation/pages/tv/home_tv_page.dart';
 import 'package:ditonton/presentation/pages/tv/now_playing_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/popular_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/search_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_series_page.dart';
+import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_search_notifier.dart';
@@ -42,6 +42,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => di.locator<HomeTabNotifier>(),
+        ),
+        // movie
         ChangeNotifierProvider(
           create: (_) => di.locator<MovieListNotifier>(),
         ),
@@ -93,12 +97,12 @@ class MyApp extends StatelessWidget {
           textTheme: kTextTheme,
           drawerTheme: kDrawerTheme,
         ),
-        home: HomeMoviePage(),
+        home: HomeRootPage(),
         navigatorObservers: [routeObserver],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
-            case HomeMoviePage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => HomeMoviePage());
+            case HomeRootPage.ROUTE_NAME:
+              return MaterialPageRoute(builder: (_) => HomeRootPage());
             case PopularMoviesPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => PopularMoviesPage());
             case TopRatedMoviesPage.ROUTE_NAME:
@@ -113,8 +117,6 @@ class MyApp extends StatelessWidget {
               return CupertinoPageRoute(builder: (_) => SearchPage());
             case WatchlistMoviesPage.ROUTE_NAME:
               return MaterialPageRoute(builder: (_) => WatchlistMoviesPage());
-            case HomeTvSeriesPage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => HomeTvSeriesPage());
             case NowPlayingTvSeriesPage.ROUTE_NAME:
               return CupertinoPageRoute(
                   builder: (_) => NowPlayingTvSeriesPage());
