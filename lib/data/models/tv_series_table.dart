@@ -1,3 +1,5 @@
+import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/domain/entities/tv_series_detail.dart';
 import 'package:equatable/equatable.dart';
 
 class TvSeriesTable extends Equatable {
@@ -13,12 +15,12 @@ class TvSeriesTable extends Equatable {
     required this.overview,
   });
 
-  // factory TvSeriesTable.fromEntity(TvSeriesDetail movie) => TvSeriesTable(
-  //       id: movie.id,
-  //       title: movie.title,
-  //       posterPath: movie.posterPath,
-  //       overview: movie.overview,
-  //     );
+  factory TvSeriesTable.fromEntity(TvSeriesDetail movie) => TvSeriesTable(
+        id: movie.id,
+        title: movie.name,
+        posterPath: movie.posterPath,
+        overview: movie.overview,
+      );
 
   factory TvSeriesTable.fromMap(Map<String, dynamic> map) => TvSeriesTable(
         id: map['id'],
@@ -34,12 +36,12 @@ class TvSeriesTable extends Equatable {
         'overview': overview,
       };
 
-  // TvSeries toEntity() => TvSeries.watchlist(
-  //       id: id,
-  //       overview: overview,
-  //       posterPath: posterPath,
-  //       title: title,
-  //     );
+  TvSeries toEntity() => TvSeries.watchlist(
+        id: id,
+        overview: overview,
+        posterPath: posterPath,
+        name: title,
+      );
 
   @override
   // TODO: implement props

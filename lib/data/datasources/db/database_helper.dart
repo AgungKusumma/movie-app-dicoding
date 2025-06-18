@@ -104,7 +104,7 @@ class DatabaseHelper {
     );
   }
 
-  Future<Map<String, dynamic>?> getTvById(int id) async {
+  Future<Map<String, dynamic>?> getTvSeriesById(int id) async {
     final db = await database;
     final results = await db!.query(
       _tblTvWatchlist,
@@ -114,7 +114,7 @@ class DatabaseHelper {
     return results.isNotEmpty ? results.first : null;
   }
 
-  Future<List<Map<String, dynamic>>> getWatchlistTvs() async {
+  Future<List<Map<String, dynamic>>> getWatchlistTvSeries() async {
     final db = await database;
     return await db!.query(_tblTvWatchlist);
   }
