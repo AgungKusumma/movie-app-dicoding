@@ -180,6 +180,34 @@ class DetailContent extends StatelessWidget {
                             ),
                             SizedBox(height: 16),
                             Text(
+                              'Seasons',
+                              style: kHeading6,
+                            ),
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: tvSeries.seasons.length,
+                              separatorBuilder: (_, __) =>
+                                  Divider(color: Colors.grey),
+                              itemBuilder: (context, index) {
+                                final season = tvSeries.seasons[index];
+                                final airDate =
+                                    season.airDate?.isNotEmpty == true
+                                        ? season.airDate!
+                                        : 'Unknown';
+                                final episodeCount = season.episodeCount;
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  child: Text(
+                                    '${season.name} • $airDate • $episodeCount episode${episodeCount != 1 ? 's' : ''}',
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
+                                );
+                              },
+                            ),
+                            SizedBox(height: 16),
+                            Text(
                               'Recommendations',
                               style: kHeading6,
                             ),
