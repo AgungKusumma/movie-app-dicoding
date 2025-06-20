@@ -5,6 +5,8 @@ import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/constants.dart';
+
 class WatchlistMoviesPage extends StatefulWidget {
   static const ROUTE_NAME = '/watchlist-movie';
 
@@ -48,13 +50,22 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                 child: CircularProgressIndicator(),
               );
             } else if (data.watchlistState == RequestState.Loaded) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final movie = data.watchlistMovies[index];
-                  return MovieCard(movie);
-                },
-                itemCount: data.watchlistMovies.length,
-              );
+              if (data.watchlistMovies.isEmpty) {
+                return Center(
+                  child: Text(
+                    'Watchlist is empty.',
+                    style: kSubtitle,
+                  ),
+                );
+              } else {
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    final movie = data.watchlistMovies[index];
+                    return MovieCard(movie);
+                  },
+                  itemCount: data.watchlistMovies.length,
+                );
+              }
             } else {
               return Center(
                 key: Key('error_message'),

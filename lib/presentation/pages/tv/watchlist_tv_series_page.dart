@@ -5,6 +5,8 @@ import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/constants.dart';
+
 class WatchlistTvSeriesPage extends StatefulWidget {
   static const ROUTE_NAME = '/watchlist-tv-series';
 
@@ -48,13 +50,22 @@ class _WatchlistTvSeriesPageState extends State<WatchlistTvSeriesPage>
                 child: CircularProgressIndicator(),
               );
             } else if (data.watchlistState == RequestState.Loaded) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final tvSeries = data.watchlistTvSeries[index];
-                  return TvSeriesCard(tvSeries);
-                },
-                itemCount: data.watchlistTvSeries.length,
-              );
+              if (data.watchlistTvSeries.isEmpty) {
+                return Center(
+                  child: Text(
+                    'Watchlist is empty.',
+                    style: kSubtitle,
+                  ),
+                );
+              } else {
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    final tvSeries = data.watchlistTvSeries[index];
+                    return TvSeriesCard(tvSeries);
+                  },
+                  itemCount: data.watchlistTvSeries.length,
+                );
+              }
             } else {
               return Center(
                 key: Key('error_message'),
