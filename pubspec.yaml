@@ -34,10 +34,13 @@ dependencies:
   get_it: ^7.7.0
   sqflite: ^2.3.3+1
   path_provider: ^2.1.4
+  flutter_bloc: ^8.0.0
+  rxdart: ^0.27.1
 
 dev_dependencies:
   mockito: ^5.0.8
   build_runner: ^2.0.4
+  bloc_test: ^9.0.0
   flutter_test:
     sdk: flutter
 

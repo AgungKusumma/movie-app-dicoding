@@ -1,9 +1,9 @@
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/provider/tv/tv_series_search_notifier.dart';
+import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
 import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchTvSeriesPage extends StatelessWidget {
   static const ROUTE_NAME = '/search-tv-series';
@@ -20,9 +20,8 @@ class SearchTvSeriesPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              onSubmitted: (query) {
-                Provider.of<TvSeriesSearchNotifier>(context, listen: false)
-                    .fetchTvSeriesSearch(query);
+              onChanged: (query) {
+                context.read<SearchBloc<TvSeries>>().add(OnQueryChanged(query));
               },
               decoration: InputDecoration(
                 hintText: 'Search title',
@@ -37,14 +36,14 @@ class SearchTvSeriesPage extends StatelessWidget {
               style: kHeading6,
             ),
             Expanded(
-              child: Consumer<TvSeriesSearchNotifier>(
-                builder: (context, data, child) {
-                  if (data.state == RequestState.Loading) {
+              child: BlocBuilder<SearchBloc<TvSeries>, SearchState<TvSeries>>(
+                builder: (context, state) {
+                  if (state is SearchLoading<TvSeries>) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (data.state == RequestState.Loaded) {
-                    final result = data.searchResult;
+                  } else if (state is SearchHasData<TvSeries>) {
+                    final result = state.result;
 
                     if (result.isEmpty) {
                       return Center(
@@ -57,13 +56,13 @@ class SearchTvSeriesPage extends StatelessWidget {
                       return ListView.builder(
                         padding: const EdgeInsets.all(8),
                         itemBuilder: (context, index) {
-                          final tvSeries = data.searchResult[index];
+                          final tvSeries = result[index];
                           return TvSeriesCard(tvSeries);
                         },
                         itemCount: result.length,
                       );
                     }
-                  } else if (data.state == RequestState.Error) {
+                  } else if (state is SearchError<TvSeries>) {
                     return Center(
                       child: Text(
                         'Error, please check your internet connection!',
