@@ -1,5 +1,7 @@
 # 🎬 Ditonton – Flutter Movie App
 
+[![Build status](https://api.codemagic.io/apps/6854d420493da21664fdeb7f/6854d420493da21664fdeb7e/status_badge.svg)](https://codemagic.io/app/6854d420493da21664fdeb7f/6854d420493da21664fdeb7e/latest_build)
+
 A Flutter-based movie catalog app developed as part of the **Dicoding Android Expert Capstone Project**. The app displays a list of popular movies and TV shows using data from The Movie Database (TMDb) API.
 
 ---
