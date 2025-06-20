@@ -36,30 +36,43 @@ class SearchPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            Consumer<MovieSearchNotifier>(
-              builder: (context, data, child) {
-                if (data.state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (data.state == RequestState.Loaded) {
-                  final result = data.searchResult;
-                  return Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        final movie = data.searchResult[index];
-                        return MovieCard(movie);
-                      },
-                      itemCount: result.length,
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: Container(),
-                  );
-                }
-              },
+            Expanded(
+              child: Consumer<MovieSearchNotifier>(
+                builder: (context, data, child) {
+                  if (data.state == RequestState.Loading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (data.state == RequestState.Loaded) {
+                    final result = data.searchResult;
+
+                    if (result.isEmpty) {
+                      return Center(
+                        child: Text(
+                          'Movies not found.',
+                          style: kSubtitle,
+                        ),
+                      );
+                    } else {
+                      return ListView.builder(
+                        padding: const EdgeInsets.all(8),
+                        itemBuilder: (context, index) {
+                          final movie = data.searchResult[index];
+                          return MovieCard(movie);
+                        },
+                        itemCount: result.length,
+                      );
+                    }
+                  } else {
+                    return Center(
+                      child: Text(
+                        'Error, please check your internet connection!',
+                        style: kSubtitle,
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),

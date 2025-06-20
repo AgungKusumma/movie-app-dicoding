@@ -36,30 +36,43 @@ class SearchTvSeriesPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            Consumer<TvSeriesSearchNotifier>(
-              builder: (context, data, child) {
-                if (data.state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (data.state == RequestState.Loaded) {
-                  final result = data.searchResult;
-                  return Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        final tvSeries = data.searchResult[index];
-                        return TvSeriesCard(tvSeries);
-                      },
-                      itemCount: result.length,
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: Container(),
-                  );
-                }
-              },
+            Expanded(
+              child: Consumer<TvSeriesSearchNotifier>(
+                builder: (context, data, child) {
+                  if (data.state == RequestState.Loading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (data.state == RequestState.Loaded) {
+                    final result = data.searchResult;
+
+                    if (result.isEmpty) {
+                      return Center(
+                        child: Text(
+                          'TV Series not found.',
+                          style: kSubtitle,
+                        ),
+                      );
+                    } else {
+                      return ListView.builder(
+                        padding: const EdgeInsets.all(8),
+                        itemBuilder: (context, index) {
+                          final tvSeries = data.searchResult[index];
+                          return TvSeriesCard(tvSeries);
+                        },
+                        itemCount: result.length,
+                      );
+                    }
+                  } else {
+                    return Center(
+                      child: Text(
+                        'Error, please check your internet connection!',
+                        style: kSubtitle,
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),
