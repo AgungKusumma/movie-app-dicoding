@@ -63,13 +63,15 @@ class SearchTvSeriesPage extends StatelessWidget {
                         itemCount: result.length,
                       );
                     }
-                  } else {
+                  } else if (data.state == RequestState.Error) {
                     return Center(
                       child: Text(
                         'Error, please check your internet connection!',
                         style: kSubtitle,
                       ),
                     );
+                  } else {
+                    return Container();
                   }
                 },
               ),

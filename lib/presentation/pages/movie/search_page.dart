@@ -49,7 +49,7 @@ class SearchPage extends StatelessWidget {
                     if (result.isEmpty) {
                       return Center(
                         child: Text(
-                          'Movies not found.',
+                          'Movies not fsound.',
                           style: kSubtitle,
                         ),
                       );
@@ -63,13 +63,15 @@ class SearchPage extends StatelessWidget {
                         itemCount: result.length,
                       );
                     }
-                  } else {
+                  } else if (data.state == RequestState.Error) {
                     return Center(
                       child: Text(
                         'Error, please check your internet connection!',
                         style: kSubtitle,
                       ),
                     );
+                  } else {
+                    return Container();
                   }
                 },
               ),
