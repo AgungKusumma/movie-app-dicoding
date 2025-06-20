@@ -32,6 +32,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// Trigger test build CodeMagic
+
 void main() {
   di.init();
   runApp(MyApp());
