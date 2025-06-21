@@ -8,6 +8,7 @@ import 'package:ditonton/presentation/bloc/movie/home/now_playing/now_playing_mo
 import 'package:ditonton/presentation/bloc/movie/home/popular/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/top_rated/top_rated_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/home_root_page.dart';
 import 'package:ditonton/presentation/pages/movie/movie_detail_page.dart';
@@ -22,7 +23,6 @@ import 'package:ditonton/presentation/pages/tv/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_series_page.dart';
 import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
-import 'package:ditonton/presentation/provider/movie/watchlist_movie_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/now_playing_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/popular_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/top_rated_tv_series_notifier.dart';
@@ -46,10 +46,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => di.locator<HomeTabNotifier>(),
-        ),
-        // movie
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistMovieNotifier>(),
         ),
         // tv series
         ChangeNotifierProvider(
@@ -80,6 +76,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<TopRatedMoviesBloc>(
           create: (_) => di.locator<TopRatedMoviesBloc>(),
+        ),
+        BlocProvider<WatchlistMoviesBloc>(
+          create: (_) => di.locator<WatchlistMoviesBloc>(),
         ),
         BlocProvider<SearchBloc<Movie>>(
           create: (_) => di.locator<SearchBloc<Movie>>(),
