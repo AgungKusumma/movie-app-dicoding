@@ -3,6 +3,7 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/presentation/bloc/movie/home/now_playing/now_playing_movies_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie/home/popular/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/pages/movie/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/movie/popular_movies_page.dart';
 import 'package:ditonton/presentation/pages/movie/top_rated_movies_page.dart';
@@ -22,8 +23,8 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
     super.initState();
     Future.microtask(() {
       context.read<NowPlayingMoviesBloc>().add(FetchNowPlayingMovies());
+      context.read<PopularMoviesBloc>().add(FetchPopularMovies());
       Provider.of<MovieListNotifier>(context, listen: false)
-        ..fetchPopularMovies()
         ..fetchTopRatedMovies();
     });
   }
@@ -56,18 +57,19 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
             onTap: () =>
                 Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
           ),
-          Consumer<MovieListNotifier>(builder: (context, data, child) {
-            final state = data.popularMoviesState;
-            if (state == RequestState.Loading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state == RequestState.Loaded) {
-              return MovieList(data.popularMovies);
-            } else {
-              return Text('Failed');
-            }
-          }),
+          BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
+            builder: (context, state) {
+              if (state is PopularMoviesLoading) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is PopularMoviesHasData) {
+                return MovieList(state.result);
+              } else if (state is PopularMoviesError) {
+                return Text(state.message);
+              } else {
+                return Text('Failed');
+              }
+            },
+          ),
           _buildSubHeading(
             title: 'Top Rated',
             onTap: () =>
