@@ -3,6 +3,7 @@ import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/injection.dart' as di;
+import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/now_playing/now_playing_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/popular/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/top_rated/top_rated_movies_bloc.dart';
@@ -21,7 +22,6 @@ import 'package:ditonton/presentation/pages/tv/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_series_page.dart';
 import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
-import 'package:ditonton/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/watchlist_movie_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/now_playing_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/popular_tv_series_notifier.dart';
@@ -48,9 +48,6 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<HomeTabNotifier>(),
         ),
         // movie
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieDetailNotifier>(),
-        ),
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistMovieNotifier>(),
         ),
@@ -114,7 +111,12 @@ class MyApp extends StatelessWidget {
             case MovieDetailPage.ROUTE_NAME:
               final id = settings.arguments as int;
               return MaterialPageRoute(
-                builder: (_) => MovieDetailPage(id: id),
+                builder: (_) => BlocProvider<MovieDetailBloc>.value(
+                  value: di.locator<MovieDetailBloc>()
+                    ..add(FetchMovieDetail(id))
+                    ..add(LoadMovieWatchlistStatus(id)),
+                  child: MovieDetailPage(id: id),
+                ),
                 settings: settings,
               );
             case SearchPage.ROUTE_NAME:

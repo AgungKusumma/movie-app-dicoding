@@ -29,12 +29,12 @@ import 'package:ditonton/domain/usecases/tv/get_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/remove_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/save_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/search_tv_series.dart';
+import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/now_playing/now_playing_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/popular/popular_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/top_rated/top_rated_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
 import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
-import 'package:ditonton/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/watchlist_movie_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/now_playing_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/popular_tv_series_notifier.dart';
@@ -64,21 +64,20 @@ void init() {
   locator.registerFactory<SearchBloc<Movie>>(
     () => SearchBloc<Movie>(locator<SearchMovies>().execute),
   );
-
   locator.registerFactory<SearchBloc<TvSeries>>(
     () => SearchBloc<TvSeries>(locator<SearchTvSeries>().execute),
   );
-
-  // movie
-  locator.registerFactory(
-    () => MovieDetailNotifier(
-      getMovieDetail: locator(),
-      getMovieRecommendations: locator(),
-      getWatchListStatus: locator(),
-      saveWatchlist: locator(),
-      removeWatchlist: locator(),
+  locator.registerFactory<MovieDetailBloc>(
+    () => MovieDetailBloc(
+      locator<GetMovieDetail>(), // GetMovieDetail
+      locator<GetMovieRecommendations>(), // GetMovieRecommendations
+      locator<GetWatchListStatus>(), // GetWatchListStatus
+      locator<SaveWatchlist>(), // SaveWatchlist
+      locator<RemoveWatchlist>(), // RemoveWatchlist
     ),
   );
+
+  // movie
   locator.registerFactory(
     () => WatchlistMovieNotifier(
       getWatchlistMovies: locator(),
