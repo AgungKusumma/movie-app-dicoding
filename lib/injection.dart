@@ -31,12 +31,10 @@ import 'package:ditonton/domain/usecases/tv/save_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/search_tv_series.dart';
 import 'package:ditonton/presentation/bloc/movie/home/now_playing/now_playing_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/popular/popular_movies_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie/home/top_rated/top_rated_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
 import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_detail_notifier.dart';
-import 'package:ditonton/presentation/provider/movie/movie_list_notifier.dart';
-import 'package:ditonton/presentation/provider/movie/popular_movies_notifier.dart';
-import 'package:ditonton/presentation/provider/movie/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/watchlist_movie_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/now_playing_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/popular_tv_series_notifier.dart';
@@ -60,6 +58,9 @@ void init() {
   locator.registerFactory<PopularMoviesBloc>(
     () => PopularMoviesBloc(locator<GetPopularMovies>()),
   );
+  locator.registerFactory<TopRatedMoviesBloc>(
+    () => TopRatedMoviesBloc(locator<GetTopRatedMovies>()),
+  );
   locator.registerFactory<SearchBloc<Movie>>(
     () => SearchBloc<Movie>(locator<SearchMovies>().execute),
   );
@@ -70,29 +71,12 @@ void init() {
 
   // movie
   locator.registerFactory(
-    () => MovieListNotifier(
-      getNowPlayingMovies: locator(),
-      getPopularMovies: locator(),
-      getTopRatedMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
     () => MovieDetailNotifier(
       getMovieDetail: locator(),
       getMovieRecommendations: locator(),
       getWatchListStatus: locator(),
       saveWatchlist: locator(),
       removeWatchlist: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => PopularMoviesNotifier(
-      locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TopRatedMoviesNotifier(
-      getTopRatedMovies: locator(),
     ),
   );
   locator.registerFactory(
