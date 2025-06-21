@@ -2,11 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/movie.dart';
+import 'package:ditonton/presentation/bloc/movie/home/now_playing/now_playing_movies_bloc.dart';
 import 'package:ditonton/presentation/pages/movie/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/movie/popular_movies_page.dart';
 import 'package:ditonton/presentation/pages/movie/top_rated_movies_page.dart';
 import 'package:ditonton/presentation/provider/movie/movie_list_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class HomeMoviePage extends StatefulWidget {
@@ -18,11 +20,12 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => Provider.of<MovieListNotifier>(context, listen: false)
-          ..fetchNowPlayingMovies()
-          ..fetchPopularMovies()
-          ..fetchTopRatedMovies());
+    Future.microtask(() {
+      context.read<NowPlayingMoviesBloc>().add(FetchNowPlayingMovies());
+      Provider.of<MovieListNotifier>(context, listen: false)
+        ..fetchPopularMovies()
+        ..fetchTopRatedMovies();
+    });
   }
 
   @override
@@ -35,18 +38,19 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
             'Now Playing',
             style: kHeading6,
           ),
-          Consumer<MovieListNotifier>(builder: (context, data, child) {
-            final state = data.nowPlayingState;
-            if (state == RequestState.Loading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state == RequestState.Loaded) {
-              return MovieList(data.nowPlayingMovies);
-            } else {
-              return Text('Failed');
-            }
-          }),
+          BlocBuilder<NowPlayingMoviesBloc, NowPlayingMoviesState>(
+            builder: (context, state) {
+              if (state is NowPlayingMoviesLoading) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is NowPlayingMoviesLoaded) {
+                return MovieList(state.movies);
+              } else if (state is NowPlayingMoviesError) {
+                return Center(child: Text(state.message));
+              } else {
+                return Container();
+              }
+            },
+          ),
           _buildSubHeading(
             title: 'Popular',
             onTap: () =>

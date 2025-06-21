@@ -29,6 +29,7 @@ import 'package:ditonton/domain/usecases/tv/get_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/remove_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/save_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/search_tv_series.dart';
+import 'package:ditonton/presentation/bloc/movie/home/now_playing/now_playing_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
 import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
 import 'package:ditonton/presentation/provider/movie/movie_detail_notifier.dart';
@@ -52,6 +53,9 @@ void init() {
   locator.registerFactory(() => HomeTabNotifier());
 
   // Bloc
+  locator.registerFactory<NowPlayingMoviesBloc>(
+    () => NowPlayingMoviesBloc(locator<GetNowPlayingMovies>()),
+  );
   locator.registerFactory<SearchBloc<Movie>>(
     () => SearchBloc<Movie>(locator<SearchMovies>().execute),
   );
