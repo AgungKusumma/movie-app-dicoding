@@ -2,12 +2,15 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/domain/usecases/tv/get_now_playing_tv_series.dart';
 import 'package:ditonton/presentation/bloc/tv/home/now_playing/tv_series_now_playing_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../provider/tv/tv_series_list_notifier_test.mocks.dart';
+import 'tv_series_now_playing_bloc_test.mocks.dart';
 
+@GenerateMocks([GetNowPlayingTvSeries])
 void main() {
   late TvSeriesNowPlayingBloc tvSeriesNowPlayingBloc;
   late MockGetNowPlayingTvSeries mockGetNowPlayingTvSeries;
