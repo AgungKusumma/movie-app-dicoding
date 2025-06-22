@@ -35,11 +35,11 @@ import 'package:ditonton/presentation/bloc/movie/home/popular/popular_movies_blo
 import 'package:ditonton/presentation/bloc/movie/home/top_rated/top_rated_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/search/search_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/detail/tv_series_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/home/now_playing/tv_series_now_playing_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/home/popular/popular_tv_series_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/home/top_rated/top_rated_tv_series_bloc.dart';
 import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/tv_series_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/watchlist_tv_series_notifier.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -66,9 +66,6 @@ void init() {
   locator.registerFactory<SearchBloc<Movie>>(
     () => SearchBloc<Movie>(locator<SearchMovies>().execute),
   );
-  locator.registerFactory<SearchBloc<TvSeries>>(
-    () => SearchBloc<TvSeries>(locator<SearchTvSeries>().execute),
-  );
   locator.registerFactory<MovieDetailBloc>(
     () => MovieDetailBloc(
       locator<GetMovieDetail>(), // GetMovieDetail
@@ -89,17 +86,20 @@ void init() {
   locator.registerFactory<TopRatedTvSeriesBloc>(
     () => TopRatedTvSeriesBloc(locator<GetTopRatedTvSeries>()),
   );
-
-  // provider tv series
-  locator.registerFactory(
-    () => TvSeriesDetailNotifier(
-      getTvSeriesDetail: locator(),
-      getTvSeriesRecommendations: locator(),
-      getWatchListStatus: locator(),
-      saveWatchlist: locator(),
-      removeWatchlist: locator(),
+  locator.registerFactory<SearchBloc<TvSeries>>(
+    () => SearchBloc<TvSeries>(locator<SearchTvSeries>().execute),
+  );
+  locator.registerFactory<TvSeriesDetailBloc>(
+    () => TvSeriesDetailBloc(
+      locator<GetTvSeriesDetail>(), // GetMovieDetail
+      locator<GetTvSeriesRecommendations>(), // GetMovieRecommendations
+      locator<GetWatchListStatusTvSeries>(), // GetWatchListStatus
+      locator<SaveWatchlistTvSeries>(), // SaveWatchlist
+      locator<RemoveWatchlistTvSeries>(), // RemoveWatchlist
     ),
   );
+
+  // provider tv series
   locator.registerFactory(
     () => WatchlistTvSeriesNotifier(
       getWatchlistTvSeries: locator(),
