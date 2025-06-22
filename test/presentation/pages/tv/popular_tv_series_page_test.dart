@@ -1,66 +1,85 @@
-import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/presentation/bloc/tv/home/popular/popular_tv_series_bloc.dart';
 import 'package:ditonton/presentation/pages/tv/popular_tv_series_page.dart';
-import 'package:ditonton/presentation/provider/tv/popular_tv_series_notifier.dart';
+import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'popular_tv_series_page_test.mocks.dart';
+// Mock & Fake
+class MockPopularTvSeriesBloc extends Mock implements PopularTvSeriesBloc {}
 
-@GenerateMocks([PopularTvSeriesNotifier])
+class FakePopularTvSeriesState extends Fake implements PopularTvSeriesState {}
+
+class FakePopularTvSeriesEvent extends Fake implements PopularTvSeriesEvent {}
+
 void main() {
-  late MockPopularTvSeriesNotifier mockNotifier;
+  late MockPopularTvSeriesBloc mockBloc;
+
+  setUpAll(() {
+    registerFallbackValue(FakePopularTvSeriesState());
+    registerFallbackValue(FakePopularTvSeriesEvent());
+  });
 
   setUp(() {
-    mockNotifier = MockPopularTvSeriesNotifier();
+    mockBloc = MockPopularTvSeriesBloc();
+    when(() => mockBloc.stream).thenAnswer((_) => const Stream.empty());
   });
 
   Widget _makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<PopularTvSeriesNotifier>.value(
-      value: mockNotifier,
-      child: MaterialApp(
-        home: body,
+    return MaterialApp(
+      home: BlocProvider<PopularTvSeriesBloc>.value(
+        value: mockBloc,
+        child: body,
       ),
     );
   }
 
-  testWidgets('Page should display center progress bar when loading',
-      (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loading);
-
-    final progressBarFinder = find.byType(CircularProgressIndicator);
-    final centerFinder = find.byType(Center);
+  testWidgets('should show loading indicator when state is loading',
+      (tester) async {
+    when(() => mockBloc.state).thenReturn(PopularTvSeriesLoading());
 
     await tester.pumpWidget(_makeTestableWidget(PopularTvSeriesPage()));
 
-    expect(centerFinder, findsOneWidget);
-    expect(progressBarFinder, findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets('Page should display ListView when data is loaded',
-      (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loaded);
-    when(mockNotifier.tvSeries).thenReturn(<TvSeries>[]);
+  testWidgets('should show listview when state is loaded', (tester) async {
+    final tv = TvSeries(
+      adult: false,
+      backdropPath: 'backdropPath',
+      genreIds: [1, 2],
+      id: 1,
+      originalName: 'Original Name',
+      overview: 'Overview',
+      popularity: 9.0,
+      posterPath: '/poster.jpg',
+      firstAirDate: '2022-01-01',
+      name: 'TV Title',
+      video: false,
+      voteAverage: 8.7,
+      voteCount: 200,
+    );
 
-    final listViewFinder = find.byType(ListView);
+    when(() => mockBloc.state).thenReturn(PopularTvSeriesLoaded([tv]));
+    when(() => mockBloc.stream)
+        .thenAnswer((_) => Stream.value(PopularTvSeriesLoaded([tv])));
 
     await tester.pumpWidget(_makeTestableWidget(PopularTvSeriesPage()));
 
-    expect(listViewFinder, findsOneWidget);
+    expect(find.byType(ListView), findsOneWidget);
+    expect(find.byType(TvSeriesCard), findsOneWidget);
   });
 
-  testWidgets('Page should display text with message when Error',
-      (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Error);
-    when(mockNotifier.message).thenReturn('Error message');
-
-    final textFinder = find.byKey(Key('error_message'));
+  testWidgets('should show error message when state is error', (tester) async {
+    when(() => mockBloc.state)
+        .thenReturn(PopularTvSeriesError('Error message'));
+    when(() => mockBloc.stream)
+        .thenAnswer((_) => Stream.value(PopularTvSeriesError('Error message')));
 
     await tester.pumpWidget(_makeTestableWidget(PopularTvSeriesPage()));
 
-    expect(textFinder, findsOneWidget);
+    expect(find.text('Error message'), findsOneWidget);
   });
 }

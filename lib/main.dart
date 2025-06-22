@@ -10,6 +10,7 @@ import 'package:ditonton/presentation/bloc/movie/home/top_rated/top_rated_movies
 import 'package:ditonton/presentation/bloc/movie/search/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/home/now_playing/tv_series_now_playing_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/home/popular/popular_tv_series_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/home_root_page.dart';
 import 'package:ditonton/presentation/pages/movie/movie_detail_page.dart';
@@ -24,7 +25,6 @@ import 'package:ditonton/presentation/pages/tv/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_series_page.dart';
 import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/popular_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/top_rated_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/tv_list_notifier.dart';
 import 'package:ditonton/presentation/provider/tv/tv_series_detail_notifier.dart';
@@ -50,9 +50,6 @@ class MyApp extends StatelessWidget {
         // tv series
         ChangeNotifierProvider(
           create: (_) => di.locator<TvSeriesListNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularTvSeriesNotifier>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<TopRatedTvSeriesNotifier>(),
@@ -86,6 +83,9 @@ class MyApp extends StatelessWidget {
         // Bloc tv series
         BlocProvider<TvSeriesNowPlayingBloc>(
           create: (_) => di.locator<TvSeriesNowPlayingBloc>(),
+        ),
+        BlocProvider<PopularTvSeriesBloc>(
+          create: (_) => di.locator<PopularTvSeriesBloc>(),
         ),
       ],
       child: MaterialApp(

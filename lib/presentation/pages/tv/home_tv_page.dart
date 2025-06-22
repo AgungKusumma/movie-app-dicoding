@@ -3,6 +3,7 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/presentation/bloc/tv/home/now_playing/tv_series_now_playing_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/home/popular/popular_tv_series_bloc.dart';
 import 'package:ditonton/presentation/pages/tv/now_playing_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/popular_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/top_rated_tv_series_page.dart';
@@ -23,10 +24,10 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
     super.initState();
     Future.microtask(() {
       context.read<TvSeriesNowPlayingBloc>().add(FetchNowPlayingTvSeries());
+      context.read<PopularTvSeriesBloc>().add(FetchPopularTvSeries());
     });
     Future.microtask(
         () => Provider.of<TvSeriesListNotifier>(context, listen: false)
-          ..fetchPopularTvSeries()
           ..fetchTopRatedTvSeries());
   }
 
@@ -59,18 +60,19 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
             onTap: () =>
                 Navigator.pushNamed(context, PopularTvSeriesPage.ROUTE_NAME),
           ),
-          Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
-            final state = data.popularTvSeriesState;
-            if (state == RequestState.Loading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state == RequestState.Loaded) {
-              return TvSeriesList(data.popularTvSeries);
-            } else {
-              return Text('Failed');
-            }
-          }),
+          BlocBuilder<PopularTvSeriesBloc, PopularTvSeriesState>(
+            builder: (context, state) {
+              if (state is PopularTvSeriesLoading) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is PopularTvSeriesLoaded) {
+                return TvSeriesList(state.result);
+              } else if (state is PopularTvSeriesError) {
+                return Center(child: Text(state.message));
+              } else {
+                return Container();
+              }
+            },
+          ),
           _buildSubHeading(
             title: 'Top Rated',
             onTap: () =>
