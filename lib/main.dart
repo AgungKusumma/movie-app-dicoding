@@ -2,6 +2,7 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/firebase_options.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:ditonton/presentation/bloc/home_tab_cubit.dart';
 import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_bloc.dart';
@@ -28,6 +29,8 @@ import 'package:ditonton/presentation/pages/tv/search_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_series_page.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,11 +38,18 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   await di.init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -93,7 +103,10 @@ class MyApp extends StatelessWidget {
           drawerTheme: kDrawerTheme,
         ),
         home: HomeRootPage(),
-        navigatorObservers: [routeObserver],
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: analytics),
+          routeObserver,
+        ],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case HomeRootPage.ROUTE_NAME:

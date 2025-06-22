@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "469869453077",
+    "project_id": "movie-app-191f1",
+    "storage_bucket": "movie-app-191f1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469869453077:android:524ce595b747e8a48f931c",
+        "android_client_info": {
+          "package_name": "com.dicoding.ditonton"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5gfjYEfS_xQrR9J7btmJFugq487jzbhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
