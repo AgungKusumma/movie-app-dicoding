@@ -13,6 +13,7 @@ import 'package:ditonton/presentation/bloc/tv/detail/tv_series_detail_bloc.dart'
 import 'package:ditonton/presentation/bloc/tv/home/now_playing/tv_series_now_playing_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/home/popular/popular_tv_series_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/home/top_rated/top_rated_tv_series_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/watchlist/watchlist_tv_series_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/home_root_page.dart';
 import 'package:ditonton/presentation/pages/movie/movie_detail_page.dart';
@@ -27,7 +28,6 @@ import 'package:ditonton/presentation/pages/tv/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_series_page.dart';
 import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/watchlist_tv_series_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,10 +45,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => di.locator<HomeTabNotifier>(),
-        ),
-        // tv series
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistTvSeriesNotifier>(),
         ),
 
         // Bloc
@@ -76,6 +72,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<TopRatedTvSeriesBloc>(
           create: (_) => di.locator<TopRatedTvSeriesBloc>(),
+        ),
+        BlocProvider<WatchlistTvSeriesBloc>(
+          create: (_) => di.locator<WatchlistTvSeriesBloc>(),
         ),
         BlocProvider<SearchBloc<TvSeries>>(
           create: (_) => di.locator<SearchBloc<TvSeries>>(),

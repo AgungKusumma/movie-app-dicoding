@@ -39,8 +39,8 @@ import 'package:ditonton/presentation/bloc/tv/detail/tv_series_detail_bloc.dart'
 import 'package:ditonton/presentation/bloc/tv/home/now_playing/tv_series_now_playing_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/home/popular/popular_tv_series_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/home/top_rated/top_rated_tv_series_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv/watchlist/watchlist_tv_series_bloc.dart';
 import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
-import 'package:ditonton/presentation/provider/tv/watchlist_tv_series_notifier.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
@@ -86,6 +86,9 @@ void init() {
   locator.registerFactory<TopRatedTvSeriesBloc>(
     () => TopRatedTvSeriesBloc(locator<GetTopRatedTvSeries>()),
   );
+  locator.registerFactory<WatchlistTvSeriesBloc>(
+    () => WatchlistTvSeriesBloc(locator<GetWatchlistTvSeries>()),
+  );
   locator.registerFactory<SearchBloc<TvSeries>>(
     () => SearchBloc<TvSeries>(locator<SearchTvSeries>().execute),
   );
@@ -96,13 +99,6 @@ void init() {
       locator<GetWatchListStatusTvSeries>(), // GetWatchListStatus
       locator<SaveWatchlistTvSeries>(), // SaveWatchlist
       locator<RemoveWatchlistTvSeries>(), // RemoveWatchlist
-    ),
-  );
-
-  // provider tv series
-  locator.registerFactory(
-    () => WatchlistTvSeriesNotifier(
-      getWatchlistTvSeries: locator(),
     ),
   );
 

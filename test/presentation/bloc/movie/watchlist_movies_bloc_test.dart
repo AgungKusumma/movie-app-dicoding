@@ -20,6 +20,10 @@ void main() {
     bloc = WatchlistMoviesBloc(mockGetWatchlistMovies);
   });
 
+  tearDown(() {
+    bloc.close();
+  });
+
   test('initial state should be empty', () {
     expect(bloc.state, WatchlistMoviesEmpty());
   });
