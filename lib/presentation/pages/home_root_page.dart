@@ -1,5 +1,5 @@
 import 'package:ditonton/common/home_tab_enum.dart';
-import 'package:ditonton/injection.dart';
+import 'package:ditonton/presentation/bloc/home_tab_cubit.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/movie/search_page.dart';
@@ -7,23 +7,20 @@ import 'package:ditonton/presentation/pages/movie/watchlist_movies_page.dart';
 import 'package:ditonton/presentation/pages/tv/home_tv_page.dart';
 import 'package:ditonton/presentation/pages/tv/search_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv/watchlist_tv_series_page.dart';
-import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeRootPage extends StatelessWidget {
   static const ROUTE_NAME = '/home';
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => locator<HomeTabNotifier>(),
-      child: Consumer<HomeTabNotifier>(
-        builder: (context, notifier, _) {
-          final currentTab = notifier.currentTab;
-
+    return BlocProvider(
+      create: (_) => HomeTabCubit(),
+      child: BlocBuilder<HomeTabCubit, HomeTab>(
+        builder: (context, currentTab) {
           return Scaffold(
-            drawer: _buildDrawer(context, notifier),
+            drawer: _buildDrawer(context),
             appBar: AppBar(
               title: Text(currentTab == HomeTab.movie
                   ? 'Ditonton - Movies'
@@ -52,7 +49,9 @@ class HomeRootPage extends StatelessWidget {
     );
   }
 
-  Drawer _buildDrawer(BuildContext context, HomeTabNotifier notifier) {
+  Drawer _buildDrawer(BuildContext context) {
+    final currentCubit = context.read<HomeTabCubit>();
+
     return Drawer(
       child: Column(
         children: [
@@ -68,7 +67,7 @@ class HomeRootPage extends StatelessWidget {
             leading: Icon(Icons.movie),
             title: Text('Movies'),
             onTap: () {
-              notifier.setTab(HomeTab.movie);
+              currentCubit.setTab(HomeTab.movie);
               Navigator.pop(context);
             },
           ),
@@ -76,7 +75,7 @@ class HomeRootPage extends StatelessWidget {
             leading: Icon(Icons.tv),
             title: Text('TV Series'),
             onTap: () {
-              notifier.setTab(HomeTab.tv);
+              currentCubit.setTab(HomeTab.tv);
               Navigator.pop(context);
             },
           ),

@@ -29,6 +29,7 @@ import 'package:ditonton/domain/usecases/tv/get_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/remove_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/save_watchlist_tv_series.dart';
 import 'package:ditonton/domain/usecases/tv/search_tv_series.dart';
+import 'package:ditonton/presentation/bloc/home_tab_cubit.dart';
 import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/now_playing/now_playing_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/popular/popular_movies_bloc.dart';
@@ -40,15 +41,13 @@ import 'package:ditonton/presentation/bloc/tv/home/now_playing/tv_series_now_pla
 import 'package:ditonton/presentation/bloc/tv/home/popular/popular_tv_series_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/home/top_rated/top_rated_tv_series_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv/watchlist/watchlist_tv_series_bloc.dart';
-import 'package:ditonton/presentation/provider/home_tab_notifier.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 final locator = GetIt.instance;
 
 void init() {
-  // provider
-  locator.registerFactory(() => HomeTabNotifier());
+  locator.registerFactory(() => HomeTabCubit());
 
   // Bloc
   locator.registerFactory<NowPlayingMoviesBloc>(
