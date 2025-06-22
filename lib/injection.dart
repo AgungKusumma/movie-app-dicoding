@@ -3,6 +3,7 @@ import 'package:ditonton/data/datasources/movie_local_data_source.dart';
 import 'package:ditonton/data/datasources/movie_remote_data_source.dart';
 import 'package:ditonton/data/datasources/tv_series_local_data_source.dart';
 import 'package:ditonton/data/datasources/tv_series_remote_data_source.dart';
+import 'package:ditonton/data/network/secure_http_client.dart';
 import 'package:ditonton/data/repositories/movie_repository_impl.dart';
 import 'package:ditonton/data/repositories/tv_series_repository_impl.dart';
 import 'package:ditonton/domain/entities/movie.dart';
@@ -46,7 +47,7 @@ import 'package:http/http.dart' as http;
 
 final locator = GetIt.instance;
 
-void init() {
+Future<void> init() async {
   locator.registerFactory(() => HomeTabCubit());
 
   // Bloc
@@ -157,5 +158,7 @@ void init() {
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  final secureClient = await SecureHttpClient.getInstance();
+
+  locator.registerLazySingleton<http.Client>(() => secureClient);
 }
